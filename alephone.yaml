@@ -1,0 +1,31 @@
+name: alephone
+version: "20150620"
+summary: AlephOne
+description: "Aleph One is a source port of based on the source code for Bungie's Marathon 2 Engine."
+
+confinement: devmode
+
+apps:
+    alephone:
+        command: alephone
+
+parts:
+    alephone:
+        plugin: autotools
+        source: 'https://github.com/Aleph-One-Marathon/alephone/releases/download/release-20150620/AlephOne-20150620.tar.bz2'
+        configflags:
+          - --without-ffmpeg
+        build-packages:
+          - libboost-all-dev
+          - libsdl1.2-dev
+          - libsdl-image1.2-dev
+          - libsdl-net1.2-dev
+          - libsdl-ttf2.0-dev
+          - libspeexdsp-dev
+          - libzzip-dev
+          - libavcodec-dev
+          - libavformat-dev
+          - libavutil-dev
+          - libswscale-dev
+        stage-packages:
+          - libc6
