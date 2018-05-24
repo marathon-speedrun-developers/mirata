@@ -13,7 +13,7 @@
     <property name="version">Version 0.1</property>
     <property name="comments" translatable="yes">Developed mainly using ANSI C and Glade 3.20.4.
 
-This application downloads game files that were released free to download by Bungie LLC. Bungie owns the rights and trademarks to the Marathon Trilogy.</property>
+This application downloads game files that were released free to download by Bungie LLC. Bungie owns the rights and trademarks to the MarathonTrilogy.</property>
     <property name="website">https://github.com/tbcr/mirata</property>
     <property name="authors">Brandon Clark</property>
     <property name="logo_icon_name">input-gaming</property>
@@ -54,71 +54,6 @@ This application downloads game files that were released free to download by Bun
     </child>
     <child>
       <placeholder/>
-    </child>
-  </object>
-  <object class="GtkAssistant" id="mirata_binary install">
-    <property name="can_focus">False</property>
-    <property name="use_header_bar">0</property>
-    <child>
-      <object class="GtkLabel">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">This assistant will help with getting the Aleph One setup on this computer. This will involve setting up snap packages and downloading scenarios and plugins.</property>
-        <property name="wrap">True</property>
-      </object>
-      <packing>
-        <property name="page_type">intro</property>
-        <property name="has_padding">False</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Content page</property>
-      </object>
-      <packing>
-        <property name="has_padding">False</property>
-      </packing>
-    </child>
-    <child>
-      <object class="GtkLabel">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="label" translatable="yes">Confirmation page</property>
-      </object>
-      <packing>
-        <property name="page_type">confirm</property>
-        <property name="has_padding">False</property>
-      </packing>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <placeholder/>
-    </child>
-    <child internal-child="action_area">
-      <object class="GtkBox">
-        <property name="can_focus">False</property>
-        <property name="halign">end</property>
-        <property name="margin_left">6</property>
-        <property name="margin_right">6</property>
-        <property name="margin_start">6</property>
-        <property name="margin_end">6</property>
-        <property name="margin_top">6</property>
-        <property name="margin_bottom">6</property>
-        <property name="spacing">6</property>
-      </object>
-      <packing>
-        <property name="has_padding">False</property>
-      </packing>
     </child>
   </object>
   <object class="GtkDialog" id="mirata_first_setup">
