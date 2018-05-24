@@ -1,16 +1,28 @@
 # mirata
 
-Mirata is a project for creating both a guided installer for the Aleph One source port AND in the future a launcher for opening scenarios of and based on Bungie's Marathon Trilogy.
+Mirata is a project for:
+
+1.Making the process of setting up source ports based on the Marathon Engine on Linux as a painless as possible.  
+* This involves making snaps for binaries.
+
+2.Making a launcher for opening scenarios of and based on Bungie's Marathon Trilogy.
+* The GUI will be GTK based.
+* The GUI should allow downloading of third-party and official trilogy scenarios.
 
 # What will this do exactly?
-Through various prompts, the installer part of the project will download both the current stable or git master of Aleph One. It will then download the necessary dependencies and attempt to install the code.
 
-In some instances (mainly with certain linux distributions), the installer will ask if the user would like to install a premade package from a package repository. Gentoo and openSUSE are perfect examples.
+The launcher will download files needed to get a game of Marathon up and running through downloading of binaries and scenarios, installing binaries (if used on Linux) and listing all of the scenarios available to be started by the launcher. Essentially a package manager for Marathon.
 
-The installer is currently in idea phase, but would mainly work just like launchers for various DOOM source ports, where all of the scenarios are organized in a list and can be started from the launcher.
+# Sources for Communication
 
-# Why is this in ANSI C with system calls?
-Two reasons:
+[Newsgroup](https://groups.google.com/forum/#!forum/chocothon-mirata)  
+\#mirata on the [Marathon Engine Speedrunning Discord](https://discord.gg/4Mu6R3F)  
+[Thread on the Pfhorums](http://pfhorums.com/viewtopic.php?f=13&t=53564)  
+\#chocothon on freenode  
 
-1. I can't batch script well atm
-2. I thought it would be a good exercise in programming.
+
+
+
+
+
+
