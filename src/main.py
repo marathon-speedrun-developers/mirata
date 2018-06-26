@@ -1,185 +1,130 @@
-#Mirata v0.5 by tbcr
-#This application was written in python 2.7 and is released under the GNU Public License v3
-#A copy of this license can be found in the LICENSE document.
-#This application downloads both snap images of the alephone source port (https://github.com/Aleph-One-Marathon/alephone)
-#and free-to-download scenario files that are property of Bungie LLC.
+#Mirata v0.6 - The Linux setup utility for AlephOne
+#by Brandon Clark and Chance Callahan
+
+#    This file is part of mirata.
+
+#    mirata is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+
+#    mirata is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+
+#    You should have received a copy of the GNU General Public License
+#    along with mirata.  If not, see <https://www.gnu.org/licenses/>.
+
+#    This application downloads both snap images of the alephone source port (https://github.com/Aleph-One-Marathon/alephone)
+#    and free-to-download scenario files that are property of Bungie LLC.
 import os
+import grabber
 import time
-import getpass
-USER = getpass.getuser()
-from urlgrabber.grabber import URLGrabber
-from urlgrabber.progress import text_progress_meter
+import subprocess
+import argparse
+import sys
+import requests
+
+from tqdm import tqdm
+from whichcraft import which
+
+
 url = "http://174.109.47.119/files/alephone.snap"
-BASEDIR="/home/" + USER  + "/mirata/"
-SNAP="/home/" + USER  + "/mirata/snap/"
-SCEN="/home/" + USER  + "/mirata/scenarios/"
-PLUG="/home/" + USER  + "/mirata/plugins/"
-M1 = "http://github.com/Aleph-One-Marathon/alephone/releases/download/release-20150620/Marathon-20150620-Data.zip"
-FILE_M1 = "m1.zip"
-M2 = "http://github.com/Aleph-One-Marathon/alephone/releases/download/release-20150620/Marathon2-20150620-Data.zip"
-FILE_M2 = "m2.zip"
-MINF = "https://github.com/Aleph-One-Marathon/alephone/releases/download/release-20150620/MarathonInfinity-20150620-Data.zip"
-FILE_MINF = "minf.zip"
-cmd='nothing'
 
-def distpkg(pick):
-    #Determining package manager command from input of 'option'
-    if pick == 1:
-        act = 'rpm -qa |grep snapd | wc -l'
-    elif pick == 2:
-        act = 'apt list snapd | grep snapd | wc -l'
-    elif pick == 3:
-        act = 'pacman -Qs snapd | grep snapd | wc -l'
-    elif pick == 4:
-        act = 'emerge -p snapd | grep snapd | wc -l'
-    elif pick == 5:
-        act = 'equo search --installed | wc -l'
+act_os = 60
+sup_os = ['Ubuntu', 'Fedora', 'Arch', 'Gentoo', 'openSUSE', 'Sabayon']
+
+
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--override-snap-bugout", help="Overrides sanity check for snapcraft.", action="store_true")
+    parser.add_argument("--target-os", help="Select target OS, see --eligible-targets", action="store")
+    parser.add_argument("--eligible-targets", help="Eligible Target Platforms: Ubuntu, Fedora, Arch, Gentoo, openSUSE, Sabayon")
+    parser.add_argument("--refactor-override", help="No one in their sane mind would use this flag right now.", BaseException="store_true")
+    args = parser.parse_args()
+
+# This subroutine basically keeps some idiot from running the program in it's current state. Like us.
+
+def refactor_safety(refactor_override):
+    if refactor_override == True:
+        print("Bless your heart, you stupid fool. Running as normal, and may God have mercy on your computer.")
+        # At some point, we should add the call to the subrouting that runs this mess.
+        print("SURPRISE! We haven't added the call for the actual code execution yet. Bye!")
+        sys.quit()
     else:
-        print("INVALID OPTION")
-        exit(0)
-    return act
+        print("Just... don't even bother trying to run this code right now. You'll need to perform an exorcism if you do, and you probably can't afford both a technomancer and whatever the hourly rate right now the Catholic Church is charging.")
+        sys.quit()
 
-def tril_down():
-    cont = 1
-    count =0
-    
-    while cont == 1 and count < 3:
-    
-        print("Please Select a Scenario")
-        print("------------------------")
-        print("1)Marathon") 
-        print("2)Marathon 2: Durandal")
-        print("3)Marathon Infinity")
-        print("0)Skip")
-        
-        sel = input("Selection: ")
-        
-        if sel == 0:
-            break
-        else:
-            if sel == 1:
-                act_url = M1
-                act_file = FILE_M1
-                time.sleep(1) 
-            elif sel == 2:
-                act_url = M2
-                act_file = FILE_M2
-                time.sleep(1) 
-            elif sel == 3:
-                act_url = MINF
-                act_file = FILE_MINF
-                time.sleep(1) 
-            
-            g = URLGrabber(reget='simple')
-            local_file=g.urlgrab(act_url, filename= SCEN + act_file,  progress_obj=text_progress_meter())
-            print("done")
-            
-        print("Would you like to download more scenarios")
-        print("1)Yes")
-        print("2)No")
-        cont = input("Selection: ")
-        
-        count += 1
-        print(count)
-        
-        
-    
-    
-def exist_dir(path):
-    dir = os.path.dirname(path)
-    if not os.path.exists(dir):
-        os.makedirs(dir)
-     
+def os_preprocessing(act_os, target_os):
+    if target_os == "Ubuntu":
+        act_os=0
+    elif target_os == "Fedora":
+        act_os=1
+    elif target_os == "Arch":
+        act_os=2
+    elif target_os == "Gentoo":
+        act_os=3
+    elif target_os == "openSUSE":
+        act_os=4
+    elif target_os == "Sabayon":
+        act_os=5
+    else:
+        print("Fatal Error in the OS Preprocessing Subroutine. Good Night.")
+    sys.quit()
 
-    
-def snap_cmd(ot):
-    if ot == 1:
-        return 'sudo dnf -y install snapd'
-    elif ot == 2:
-        return 'sudo apt -y install snapd'
-    elif ot == 3:
-        return 'yes | sudo pacman -S snapd'
-    elif ot == 4:
-        return 'sudo emerge snapd'
-    elif ot == 5:
-        return 'sudo equo install snapd'
-        
-        
+def title_banner():
+    os.system('clear')
+    print("mirata, the Linux setup tool for AlephOne")
+    print("This program comes with ABSOLUTELY NO WARRANTY.")
+    print("This is free software, and you are welcome to redistribute it under certain conditions.")
+    print '-' * 20
+    time.sleep(3)
+    os_select()
 
-    
-def snap_inst(coop):
-        print('snapd needs to be installed...attempting now')
-        os.system(coop)
-        os.system('sudo snap install --devmode ' + SNAP + 'alephone.snap')
+def os_select(act_os, sup_os):
+    if act_os == 60:
+        print("Before we begin, please select your distro")
+        print("------------------------------------------")
+        print("1)Fedora")
+        print("2)Ubuntu")
+        print("3)Arch")
+        print("4)Gentoo")
+        print("5)openSUSE")
+        print("6)Sabayon(Equo)")
+        print("")
+        act_os = input("Selection: ")
+        act_os = act_os - 1
+    else:
+        print("I see you have selected " + sup_os[act_os] + " as your install target during runtime. Continuing unattended.")
+    snap_dl()
+
+def snap_dl(url):
+    print('Downloading the snap file...')
+    response = requests.get(url, stream=True)
+
+    with open("alpehone.snap", wb) as handle:
+        for data in tqdm(response.iter_content()):
+    handle.write(data)
+
+def check_for_snap():
+    # Checks if snap is in the system PATH
+    if which('snap') is not None:
+        installmirata()
+    else:
+        bugout_nosnap()
+
+def bugout_nosnap():
+    #Checks if we are overriding the bugout
+    if args.override-snap-bugout is True:
+        installmirata()
+    else:
+        print("I can't seem to find snapcraft on this system. Either add it to your path, or use --override-snap-bugout to bypass this sanity check")
+        #Sweet Dreams
+    sys.exit()
 
 
-os.system('clear')
-print("mirata, the AlephOne Linux setup tool")
-print("Version .5 by tbcr")
-print("-----------------------------------------")
-print("")
-time.sleep(3)
-
-#Displays options then gets option of choice
-print("Before we begin, please select your distro")
-print("------------------------------------------")
-print("1)Fedora")
-print("2)Ubuntu")
-print("3)Arch")
-print("4)Gentoo")
-print("5)Sabayon(Equo)")
-print("")
-option = input("Selection: ")
-
-cmd = distpkg(option)
-
-os.system('clear')
-
-print("Creating needed irectories in ~/")
-exist_dir(BASEDIR)
-exist_dir(SNAP)
-exist_dir(PLUG)
-exist_dir(SCEN)
-    
-time.sleep(3)
-
-print('Part 1: Downloading Snap')
-g = URLGrabber(reget='simple')
-local_file=g.urlgrab(url, filename= SNAP +'alephone.snap',  progress_obj=text_progress_meter())
-print("DONE!")
-
-print('Part 2: Detecting snapd Installation')
-
-inst = os.system(cmd)
-com = snap_cmd(option)
-
-
-print('Part 3: Setting up Snap')
-if inst == 0:
-    snap_inst(com)
-    print('DONE')
-elif inst > 0:
-    print('Snapd is already installed')
-
-time.sleep(1)
-os.system('clear')
-
-print('Part 4: Scenarios')
-print('-----------------')
-
-print('Would you like to download the trilogy?')
-print('-----------------------------------------------------------')
-print('1)yes')
-print('2)no')
-scen_tril = input('Selection: ')
-
-if scen_tril == 1:
-    tril_down()
-
-print("Setup completed, files can be found in ~/mirata")
-print("Start alephone with 'sudo snap run alephone'")
-
-
+refactor_safety(refactor_override)
 
 
 
