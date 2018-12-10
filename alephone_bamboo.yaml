@@ -1,5 +1,5 @@
 name: alephone
-version: '$A1_VERSION'
+version: git
 summary: AlephOne
 description: "Aleph One is a source port of based on the source code for Bungie's Marathon 2 Engine."
 
@@ -12,7 +12,7 @@ apps:
 parts:
     alephone:
         plugin: autotools
-        source: '$A1_PATH'
+        source: '.'
         configflags:
           - --without-ffmpeg
         build-packages:
