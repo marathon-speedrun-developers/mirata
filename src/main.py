@@ -178,6 +178,7 @@ class os_install:
             print("Failure in the OS Routing Subroutine.")
 
     def ubu_install(self, cls):
+        z = mirata(mirata)
         if act_os == 0:
             print("I'm going to install snapd from your distribution's package manager.")
             print("There shouldn't be any issues with the automated installation, but if you")
@@ -190,7 +191,7 @@ class os_install:
             print("Hold your noses, here we go!")
 #            call(["sudo" "apt" "install" "snapd" "-y"])
             print("snapd has been installed. Resuming installation.")
-            mirata.snap_dl(mirata)
+            z.snap_dl(mirata)
         else:
             print("Failure in the snapd installation for Ubuntu subroutine.")
 
