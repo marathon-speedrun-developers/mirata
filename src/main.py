@@ -31,6 +31,7 @@ snap_bugout = False
 target_os = ""
 refactor_override = False
 live_dangerously = False
+nerf_snapd = 0
 
 url = "https://www.chancecallahan.com/mirata/snap/alephone.snap"
 
@@ -48,12 +49,14 @@ class mirata:
         global target_os
         global snap_bugout
         global live_dangerously
+        global nerf_snapd
         parser = argparse.ArgumentParser()
         parser.add_argument("--override-snap-bugout", dest="snap_bugout", help="Overrides sanity check for snapcraft.", action="store_true", default=False)
         parser.add_argument("--target-os", dest="target_os", help="Select target OS, see --eligible-targets", action="store")
         parser.add_argument("--eligible-targets", help="Eligible Target Platforms: Ubuntu, Fedora, Arch, Gentoo, openSUSE, Sabayon")
         parser.add_argument("--refactor-override", dest="refactor_override", help="No one in their sane mind would use this flag right now.", action="store_true", default=False)
         parser.add_argument("--live-dangerously", dest="live_dangerously", help="Just used for debug purposes. It won't exist in the final release.", action="store_true", default=False)
+        parser.add_argument("--nerf-snapd", dest="nerf_snapd", help="Nerfs snapd detection for debug purposes.", action="store_true", default=False)
         args = parser.parse_args()
         print parser.parse_args()
         refactor_override = args.refactor_override
@@ -103,7 +106,10 @@ class mirata:
 
     def check_for_snap(self, cls):
         # Checks if snap is in the system PATH
-        if which('snap') is not None:
+        if nerf_snapd == 1:
+            print("snapd detection has been nerfed. Acting as if snap isn't installed.")
+            os_install.routing(self, cls, mirata)
+        elif which('snap') is not None:
             cls.os_select(self, cls)
         else:
             print("Hmm. I don't see snapd installed. Let's get that fixed.")
@@ -182,11 +188,6 @@ class os_install:
             call(["sudo" "apt" "install" "snapd" "-y"])
         else:
             print("Failure in the snapd installation for Ubuntu subroutine.")
-
-
-
-
-
 
 def main():
     moo = mirata
