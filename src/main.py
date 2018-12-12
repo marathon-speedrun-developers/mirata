@@ -119,11 +119,12 @@ def os_select():
 def snap_dl():
     print('Downloading the snap file...')
     call(["wget", url])
+    installmirata()
 
 def check_for_snap():
     # Checks if snap is in the system PATH
     if which('snap') is not None:
-        installmirata()
+        bugout_nosnap()
     else:
         bugout_nosnap()
     os_select()
@@ -131,7 +132,7 @@ def check_for_snap():
 def bugout_nosnap():
     #Checks if we are overriding the bugout
     if snap_bugout is True:
-        installmirata()
+        snap_dl()
     else:
         print("I can't seem to find snap on this system. Either add it to your path, or use --override-snap-bugout to bypass this sanity check")
         #Sweet Dreams
