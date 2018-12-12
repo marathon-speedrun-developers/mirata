@@ -163,7 +163,7 @@ class mirata:
 class os_install:
 
     def __init__(self, cls):
-        cls.routing(self, cls)
+        cls.os_routing(self, cls)
 
     def os_routing(self, cls):
         if act_os == 0:
