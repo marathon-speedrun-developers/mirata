@@ -107,16 +107,16 @@ class mirata:
         cls.check_for_snap(self, cls)
 
     def check_for_snap(self, cls):
-        q = os_install()
+        q = os_install(os_install)
         # Checks if snap is in the system PATH
         if nerf_snapd == True:
             print("snapd detection has been nerfed. Acting as if snap isn't installed.")
             os_install.routing(self, cls)
         elif which('snap') is not None:
-            q.os_select(self, cls)
+            cls.os_select(self, cls)
         else:
             print("Hmm. I don't see snapd installed. Let's get that fixed.")
-            q.routing(self, cls)
+            q.routing(os_install)
 
     def os_select(self, cls):
         global act_os
