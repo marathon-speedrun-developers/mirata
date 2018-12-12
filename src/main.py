@@ -35,7 +35,8 @@ target_os = ""
 refactor_override = False
 live_dangerously = False
 
-url = "https://www.chancecallahan.com/mirata/snap/alephone_release-20150907%2Bgit251.cfff6949_amd64.snap"
+url = "https://www.chancecallahan.com/mirata/snap/alephone.snap"
+
 
 act_os = 60
 sup_os = ['Ubuntu', 'Fedora', 'Arch', 'Gentoo', 'openSUSE', 'Sabayon']
