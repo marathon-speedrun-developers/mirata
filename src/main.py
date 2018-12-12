@@ -31,7 +31,7 @@ snap_bugout = False
 target_os = ""
 refactor_override = False
 live_dangerously = False
-nerf_snapd = 0
+nerf_snapd = False
 
 url = "https://www.chancecallahan.com/mirata/snap/alephone.snap"
 
@@ -106,7 +106,7 @@ class mirata:
 
     def check_for_snap(self, cls):
         # Checks if snap is in the system PATH
-        if nerf_snapd == 1:
+        if nerf_snapd == True:
             print("snapd detection has been nerfed. Acting as if snap isn't installed.")
             os_install.routing(self, cls, mirata)
         elif which('snap') is not None:
