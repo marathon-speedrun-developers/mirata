@@ -101,7 +101,7 @@ class mirata:
         time.sleep(3)
         cls.check_for_snap(self, cls)
 
-    def check_for_snap(self, cls):
+    def check_for_snap(self, cls, which):
         # Checks if snap is in the system PATH
         if which('snap') is not None:
             cls.os_select(self, cls)
