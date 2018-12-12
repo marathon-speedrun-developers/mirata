@@ -136,7 +136,7 @@ class mirata:
             print("I see you have selected " + sup_os[act_os] + " as your install target during runtime. Continuing unattended.")
         cls.snap_dl(self, cls)
 
-    def snap_dl(self, cls):
+    def snap_dl(self, mirata):
         print('Downloading the snap file...')
         call(["wget", url])
         cls.installmirata(self, cls)
