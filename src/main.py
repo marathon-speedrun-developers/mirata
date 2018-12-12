@@ -79,7 +79,7 @@ def os_preprocessing():
     global act_os
     if target_os == "Ubuntu":
         act_os=0
-	    os_pp_debug()
+        os_pp_debug()
     elif target_os == "Fedora":
         act_os=1
     elif target_os == "Arch":
