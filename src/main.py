@@ -168,8 +168,8 @@ def os_routing():
     global act_os
     if act_os == 0:
         ubu_install()
- #   elif act_os == 1:
- #       fed_install()
+    elif act_os == 1:
+        fed_install()
  #   elif act_os == 2:
  #       arch_install()
  #   elif act_os == 3:
@@ -192,12 +192,54 @@ def ubu_install():
         print("Hit Ctrl+C to stop this script.")
         time.sleep(10)
         print("Hold your noses, here we go!")
-        call(["/usr/bin/apt", "install", "snapd", "-y"])
+        call(["sudo", "apt", "install", "snapd", "-y"])
         print("snapd has been installed. Resuming installation.")
         snap_dl()
     else:
-	print(act_os)
         print("Failure in the snapd installation for Ubuntu subroutine.")
+
+
+def fed_install():
+    if act_os == 1:
+        print("I'm going to install snapd from your distribution's package manager.")
+        print("There shouldn't be any issues with the automated installation, but if you")
+        print("want to be extra cautious/paranoid, just install it the old fashioned way.")
+        print("")
+        print("")
+        print("I'm going to wait ten seconds for you to make up your mind, then I'll start.")
+        print("Hit Ctrl+C to stop this script.")
+        time.sleep(10)
+        print("Hold your noses, here we go!")
+        call(["sudo", "dnf", "install", "snapd", "-y"])
+        print("")
+        print("")
+        print("")
+        print("")
+        print("snapd has been installed. Resuming installation.")
+        print("")
+        print("")
+        snap_dl()
+    else:
+        print(act_os)
+        print("Failure in the snapd installation for Fedora subroutine.")
+
+def suse_install():
+    if act_os == 4:
+        suse_ver = input("Enter your version of openSUSE Leap here (15.0 or 42.3 supported):")
+        print("I'm going to install snapd from your distribution's package manager.")
+        print("There shouldn't be any issues with the automated installation, but if you")
+        print("want to be extra cautious/paranoid, just install it the old fashioned way.")
+        print("")
+        print("")
+        print("I'm going to wait ten seconds for you to make up your mind, then I'll start.")
+        print("Hit Ctrl+C to stop this script.")
+        time.sleep(10)
+        print("Hold your noses, here we go!")
+        call(["sudo", "zephyr", "addrepo", "--refresh", "https://download.opensuse.org/repositories/system:/snappy/openSUSE_Leap_"+suse_ver+" snappy"])
+    else:
+        print(act_os)
+        print("Failure in the snapd installation for openSUSE subroutine.")
+
 
 def main():
     get_args()
