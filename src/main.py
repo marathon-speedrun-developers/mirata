@@ -24,7 +24,7 @@ import subprocess
 import argparse
 import sys
 
-#from whichcraft import which
+from whichcraft import which
 from subprocess import call
 
 snap_bugout = False
@@ -101,7 +101,7 @@ class mirata:
         time.sleep(3)
         cls.check_for_snap(self, cls)
 
-    def check_for_snap(self, cls, which):
+    def check_for_snap(self, cls):
         # Checks if snap is in the system PATH
         if which('snap') is not None:
             cls.os_select(self, cls)
