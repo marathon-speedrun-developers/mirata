@@ -69,7 +69,7 @@ class mirata:
         if refactor_override == True:
             print("Bless your heart, you stupid fool. Running as normal, and may God have mercy on your computer.")
             # At some point, we should add the call to the subrouting that runs this mess.
-            cls.mirata.os_preprocessing(self, cls)
+            cls.os_preprocessing(self, cls)
         else:
             print(refactor_override)
             print("Just... don't even bother trying to run this code right now. You'll need to perform an exorcism if you do, and you probably can't afford both a technomancer and whatever the hourly rate right now the Catholic Church is charging.")
