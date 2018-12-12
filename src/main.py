@@ -190,7 +190,7 @@ class os_install:
             print("Hold your noses, here we go!")
 #            call(["sudo" "apt" "install" "snapd" "-y"])
             print("snapd has been installed. Resuming installation.")
-            mirata.snap_dl(self, mirata)
+            mirata.snap_dl(mirata)
         else:
             print("Failure in the snapd installation for Ubuntu subroutine.")
 
