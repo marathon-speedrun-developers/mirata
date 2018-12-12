@@ -106,7 +106,8 @@ class mirata:
         if which('snap') is not None:
             cls.os_select(self, cls)
         else:
-            cls.bugout_nosnap(self, cls)
+            print("Hmm. I don't see snapd installed. Let's get that fixed.")
+            os_install.routing(self, cls, mirata)
 
     def os_select(self, cls):
         global act_os
@@ -145,6 +146,47 @@ class mirata:
             call(["snap", "install", "alephone.snap", "--dangerous", "--devmode"])
         else:
             print("Use --live-dangerously")
+
+class os_install:
+
+    def __init__(self, cls):
+        cls.routing(self, cls, mirata)
+
+    def routing(self, cls, mirata):
+        if act_os == 0:
+            cls.ubu_install(self, cls, mirata)
+        elif act_os == 1:
+            cls.fed_install(self, cls, mirata)
+        elif act_os == 2:
+            cls.arch_install(self, cls, mirata)
+        elif act_os == 3:
+            cls.needs_more_gentoo(self, cls, mirata)
+        elif act_os == 4:
+            cls.suse_install(self, cls, mirata)
+        elif act_os == 5:
+            cls.saba_install(self, cls, mirata)
+        else:
+            print("Failure in the OS Routing Subroutine.")
+
+    def ubu_install(self, cls, mirata):
+        if act_os == 0:
+            print("I'm going to install snapd from your distribution's package manager.")
+            print("There shouldn't be any issues with the automated installation, but if you")
+            print("want to be extra cautious/paranoid, just install it the old fashioned way.")
+            print("")
+            print("")
+            print("I'm going to wait ten seconds for you to make up your mind, then I'll start.")
+            print("Hit Ctrl+C to stop this script.")
+            time.sleep(10)
+            print("Hold your noses, here we go!")
+            call(["sudo" "apt" "install" "snapd" "-y"])
+        else:
+            print("Failure in the snapd installation for Ubuntu subroutine.")
+
+
+
+
+
 
 def main():
     moo = mirata
