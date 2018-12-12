@@ -109,7 +109,9 @@ def check_for_snap_nerf():
 
 def check_for_snap():
     # Checks if snap is in the system PATH
-    if which('snap') is not None:
+    if nerf_snapd == True:
+        os_routing()
+    elif which('snap') is not None:
         snap_dl()
     else:
         print("Hmm. I don't see snapd installed. Let's get that fixed.")
