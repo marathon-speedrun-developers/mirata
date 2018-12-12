@@ -108,7 +108,7 @@ def snap_dl(url):
 
     with open("alpehone.snap", wb) as handle:
         for data in tqdm(response.iter_content()):
-        handle.write(data)
+            handle.write(data)
 
 def check_for_snap():
     # Checks if snap is in the system PATH
