@@ -140,7 +140,7 @@ def bugout_nosnap():
     sys.exit()
 
 def installmirata():
-    if live_dangerously:
+    if live_dangerously == True:
         print("Installing Aleph One using snap. Stand by.")
         call(["snap", "install", "alephone.snap", "--dangerous", "--devmode"])
     else:
