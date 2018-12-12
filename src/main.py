@@ -60,6 +60,7 @@ def get_args():
     target_os = args.target_os
     nerf_snapd = args.nerf_snapd
     #    refactor_override = 
+    print(refactor_override, live_dangerously, snap_bugout, target_os, nerf_snapd)
     refactor_safety()
 
     # This subroutine basically keeps some idiot from running the program in it's current state. Like us.
@@ -78,6 +79,7 @@ def os_preprocessing():
     global act_os
     if target_os == "Ubuntu":
         act_os=0
+	    os_pp_debug()
     elif target_os == "Fedora":
         act_os=1
     elif target_os == "Arch":
@@ -89,7 +91,14 @@ def os_preprocessing():
     elif target_os == "Sabayon":
         act_os=5
     else:
-        title_banner()
+        os_pp_debug()
+
+
+def os_pp_debug():
+    print(act_os)
+    print(target_os)
+    time.sleep(5)	
+    title_banner()
 
 def title_banner():
     os.system('clear')
@@ -183,10 +192,11 @@ def ubu_install():
         print("Hit Ctrl+C to stop this script.")
         time.sleep(10)
         print("Hold your noses, here we go!")
-        call(["sudo" "apt" "install" "snapd" "-y"])
+        call(["/usr/bin/apt", "install", "snapd", "-y"])
         print("snapd has been installed. Resuming installation.")
         snap_dl()
     else:
+	print(act_os)
         print("Failure in the snapd installation for Ubuntu subroutine.")
 
 def main():
