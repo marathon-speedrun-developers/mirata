@@ -111,7 +111,7 @@ class mirata:
         # Checks if snap is in the system PATH
         if nerf_snapd == True:
             print("snapd detection has been nerfed. Acting as if snap isn't installed.")
-            q.routing(os_install)
+            cls.os_select(self, cls)
         elif which('snap') is not None:
             cls.os_select(self, cls)
         else:
@@ -188,7 +188,9 @@ class os_install:
             print("Hit Ctrl+C to stop this script.")
             time.sleep(10)
             print("Hold your noses, here we go!")
-            call(["sudo" "apt" "install" "snapd" "-y"])
+#            call(["sudo" "apt" "install" "snapd" "-y"])
+            print("snapd has been installed. Resuming installation.")
+            mirata.snap_dl(self, mirata)
         else:
             print("Failure in the snapd installation for Ubuntu subroutine.")
 
