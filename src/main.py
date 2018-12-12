@@ -131,8 +131,8 @@ def os_select():
     if act_os == 60:
         print("Before we begin, please select your distro")
         print("------------------------------------------")
-        print("1)Fedora")
-        print("2)Ubuntu")
+        print("1)Ubuntu")
+        print("2)Fedora")
         print("3)Arch")
         print("4)Gentoo")
         print("5)openSUSE")
