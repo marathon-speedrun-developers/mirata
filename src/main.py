@@ -61,7 +61,7 @@ class mirata:
         snap_bugout = args.snap_bugout
         target_os = args.target_os
     #    refactor_override = 
-        cls.refactor_safety()
+        cls.refactor_safety(self, cls)
 
     # This subroutine basically keeps some idiot from running the program in it's current state. Like us.
 
@@ -69,7 +69,7 @@ class mirata:
         if refactor_override == True:
             print("Bless your heart, you stupid fool. Running as normal, and may God have mercy on your computer.")
             # At some point, we should add the call to the subrouting that runs this mess.
-            cls.mirata.os_preprocessing()
+            cls.mirata.os_preprocessing(self, cls)
         else:
             print(refactor_override)
             print("Just... don't even bother trying to run this code right now. You'll need to perform an exorcism if you do, and you probably can't afford both a technomancer and whatever the hourly rate right now the Catholic Church is charging.")
@@ -90,7 +90,7 @@ class mirata:
             act_os=5
         else:
             print("Fatal Error in the OS Preprocessing Subroutine. Good Night.")
-        cls.title_banner()
+        cls.title_banner(self, cls)
 
     def title_banner(self, cls):
         os.system('clear')
@@ -99,14 +99,14 @@ class mirata:
         print("This is free software, and you are welcome to redistribute it under certain conditions.")
         print( '-' * 20 )
         time.sleep(3)
-        cls.check_for_snap()
+        cls.check_for_snap(self, cls)
 
     def check_for_snap(self, cls):
         # Checks if snap is in the system PATH
         if which('snap') is not None:
-            cls.os_select()
+            cls.os_select(self, cls)
         else:
-            cls.bugout_nosnap()
+            cls.bugout_nosnap(self, cls)
 
     def os_select(self, cls):
         global act_os
@@ -124,18 +124,18 @@ class mirata:
             act_os = act_os - 1
         else:
             print("I see you have selected " + sup_os[act_os] + " as your install target during runtime. Continuing unattended.")
-        cls.snap_dl()
+        cls.snap_dl(self, cls)
 
     def snap_dl(self, cls):
         print('Downloading the snap file...')
         call(["wget", url])
-        cls.installmirata()
+        cls.installmirata(self, cls)
 
 
     def bugout_nosnap(self, cls):
         #Checks if we are overriding the bugout
         if snap_bugout is True:
-            cls.snap_dl()
+            cls.snap_dl(self, cls)
         else:
             print("I can't seem to find snap on this system. Either add it to your path, or use --override-snap-bugout to bypass this sanity check")
 
