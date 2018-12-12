@@ -19,7 +19,7 @@
 #    This application downloads both snap images of the alephone source port (https://github.com/Aleph-One-Marathon/alephone)
 #    and free-to-download scenario files that are property of Bungie LLC.
 import os
-import grabber
+import urlgrabber
 import time
 import subprocess
 import argparse
@@ -30,36 +30,49 @@ from tqdm import tqdm
 from whichcraft import which
 from subprocess import call
 
-
+snap_bugout = False
+target_os = ""
+refactor_override = False
+live_dangerously = False
 
 url = "http://chancecallahan.com/mirata/stable/alephone.snap"
 
 act_os = 60
 sup_os = ['Ubuntu', 'Fedora', 'Arch', 'Gentoo', 'openSUSE', 'Sabayon']
 
-
 def get_args():
+    global refactor_override
+    global target_os
+    global snap_bugout
+    global live_dangerously
     parser = argparse.ArgumentParser()
-    parser.add_argument("--override-snap-bugout", dest="snap_bugout", help="Overrides sanity check for snapcraft.", action="store_true")
+    parser.add_argument("--override-snap-bugout", dest="snap_bugout", help="Overrides sanity check for snapcraft.", action="store_true", default=False)
     parser.add_argument("--target-os", dest="target_os", help="Select target OS, see --eligible-targets", action="store")
     parser.add_argument("--eligible-targets", help="Eligible Target Platforms: Ubuntu, Fedora, Arch, Gentoo, openSUSE, Sabayon")
-    parser.add_argument("--refactor-override", dest="refactor_override", help="No one in their sane mind would use this flag right now.", action="store_true")
-    parser.add_argument("--live-dangerously", dest="live_dangerously", help="Just used for debug purposes. It won't exist in the final release.", action="store_true")
+    parser.add_argument("--refactor-override", dest="refactor_override", help="No one in their sane mind would use this flag right now.", action="store_true", default=False)
+    parser.add_argument("--live-dangerously", dest="live_dangerously", help="Just used for debug purposes. It won't exist in the final release.", action="store_true", default=False)
     args = parser.parse_args()
+    print parser.parse_args()
+    refactor_override = args.refactor_override
+    live_dangerously = args.live_dangerously
+    snap_bugout = args.snap_bugout
+    target_os = args.target_os
+#    refactor_override = 
+    refactor_safety()
 
 # This subroutine basically keeps some idiot from running the program in it's current state. Like us.
 
-def refactor_safety(refactor_override):
+def refactor_safety():
     if refactor_override == True:
         print("Bless your heart, you stupid fool. Running as normal, and may God have mercy on your computer.")
         # At some point, we should add the call to the subrouting that runs this mess.
-        print("SURPRISE! We haven't added the call for the actual code execution yet. Bye!")
-        sys.quit()
+        os_preprocessing()
     else:
+        print(refactor_override)
         print("Just... don't even bother trying to run this code right now. You'll need to perform an exorcism if you do, and you probably can't afford both a technomancer and whatever the hourly rate right now the Catholic Church is charging.")
-        sys.quit()
 
-def os_preprocessing(act_os, target_os):
+def os_preprocessing():
+    global act_os
     if target_os == "Ubuntu":
         act_os=0
     elif target_os == "Fedora":
@@ -74,7 +87,7 @@ def os_preprocessing(act_os, target_os):
         act_os=5
     else:
         print("Fatal Error in the OS Preprocessing Subroutine. Good Night.")
-    sys.quit()
+    title_banner()
 
 def title_banner():
     os.system('clear')
@@ -85,7 +98,8 @@ def title_banner():
     time.sleep(3)
     os_select()
 
-def os_select(act_os, sup_os):
+def os_select():
+    global act_os
     if act_os == 60:
         print("Before we begin, please select your distro")
         print("------------------------------------------")
@@ -102,13 +116,13 @@ def os_select(act_os, sup_os):
         print("I see you have selected " + sup_os[act_os] + " as your install target during runtime. Continuing unattended.")
     snap_dl()
 
-def snap_dl(url):
+def snap_dl():
     print('Downloading the snap file...')
     response = requests.get(url, stream=True)
 
     with open("alpehone.snap", wb) as handle:
         for data in tqdm(response.iter_content()):
-            handle.write(data)
+	        handle.write(data)
 
 def check_for_snap():
     # Checks if snap is in the system PATH
@@ -134,14 +148,10 @@ def installmirata():
         print("Use --live-dangerously")
 
 
-
-
-refactor_safety(refactor_override)
-
-
+def main():
+    get_args()
 
 
 
-
-
-
+if __name__ == '__main__':
+    main()
