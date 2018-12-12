@@ -40,6 +40,9 @@ sup_os = ['Ubuntu', 'Fedora', 'Arch', 'Gentoo', 'openSUSE', 'Sabayon']
 
 class mirata:
 
+    def __init__(self, cls):
+        mirata.get_args
+
     def get_args(self, cls):
         global refactor_override
         global target_os
@@ -144,8 +147,8 @@ class mirata:
             print("Use --live-dangerously")
 
 def main():
-    blah = mirata.get_args
-    blah
+    moo = mirata
+    moo(mirata)
 
 
 
