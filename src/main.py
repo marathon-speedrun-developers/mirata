@@ -81,7 +81,7 @@ def title_banner():
     print("mirata, the Linux setup tool for AlephOne")
     print("This program comes with ABSOLUTELY NO WARRANTY.")
     print("This is free software, and you are welcome to redistribute it under certain conditions.")
-    print '-' * 20
+    print( '-' * 20 )
     time.sleep(3)
     os_select()
 
