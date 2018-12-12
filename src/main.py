@@ -103,7 +103,7 @@ class mirata:
         print("This is free software, and you are welcome to redistribute it under certain conditions.")
         print( '-' * 20 )
         time.sleep(3)
-        cls.check_for_snap(self, cls)
+        cls.check_for_snap_nerf(self, cls)
 
     def check_for_snap_nerf(self, cls):
         q = os_install(os_install)
