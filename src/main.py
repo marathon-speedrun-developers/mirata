@@ -103,14 +103,14 @@ def title_banner():
 def check_for_snap_nerf():
     if nerf_snapd == True:
         print("Acting as if snapd is not installed.")
-        os_routing()
+        os_select()
     else:
         check_for_snap()
 
 def check_for_snap():
     # Checks if snap is in the system PATH
     if which('snap') is not None:
-        os_select()
+        snap_dl()
     else:
         print("Hmm. I don't see snapd installed. Let's get that fixed.")
         os_routing()
@@ -131,7 +131,7 @@ def os_select():
         act_os = act_os - 1
     else:
         print("I see you have selected " + sup_os[act_os] + " as your install target during runtime. Continuing unattended.")
-        snap_dl()
+    check_for_snap()
 
 def snap_dl():
     print('Downloading the snap file...')
