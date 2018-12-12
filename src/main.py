@@ -63,6 +63,7 @@ class mirata:
         live_dangerously = args.live_dangerously
         snap_bugout = args.snap_bugout
         target_os = args.target_os
+        nerf_snapd = args.nerf_snapd
     #    refactor_override = 
         cls.refactor_safety(self, cls)
 
