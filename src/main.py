@@ -111,7 +111,7 @@ class mirata:
         # Checks if snap is in the system PATH
         if nerf_snapd == True:
             print("snapd detection has been nerfed. Acting as if snap isn't installed.")
-            cls.os_select(self, cls)
+            q.routing(os_install)
         elif which('snap') is not None:
             cls.os_select(self, cls)
         else:
