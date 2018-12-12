@@ -28,9 +28,11 @@ import requests
 
 from tqdm import tqdm
 from whichcraft import which
+from subprocess import call
 
 
-url = "http://174.109.47.119/files/alephone.snap"
+
+url = "http://chancecallahan.com/mirata/stable/alephone.snap"
 
 act_os = 60
 sup_os = ['Ubuntu', 'Fedora', 'Arch', 'Gentoo', 'openSUSE', 'Sabayon']
@@ -38,10 +40,11 @@ sup_os = ['Ubuntu', 'Fedora', 'Arch', 'Gentoo', 'openSUSE', 'Sabayon']
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--override-snap-bugout", help="Overrides sanity check for snapcraft.", action="store_true")
-    parser.add_argument("--target-os", help="Select target OS, see --eligible-targets", action="store")
+    parser.add_argument("--override-snap-bugout", dest="snap_bugout", help="Overrides sanity check for snapcraft.", action="store_true")
+    parser.add_argument("--target-os", dest="target_os", help="Select target OS, see --eligible-targets", action="store")
     parser.add_argument("--eligible-targets", help="Eligible Target Platforms: Ubuntu, Fedora, Arch, Gentoo, openSUSE, Sabayon")
-    parser.add_argument("--refactor-override", help="No one in their sane mind would use this flag right now.", BaseException="store_true")
+    parser.add_argument("--refactor-override", dest="refactor_override", help="No one in their sane mind would use this flag right now.", action="store_true")
+    parser.add_argument("--live-dangerously", dest="live_dangerously", help="Just used for debug purposes. It won't exist in the final release.", action="store_true")
     args = parser.parse_args()
 
 # This subroutine basically keeps some idiot from running the program in it's current state. Like us.
@@ -114,14 +117,23 @@ def check_for_snap():
     else:
         bugout_nosnap()
 
-def bugout_nosnap():
+def bugout_nosnap(snap_bugout):
     #Checks if we are overriding the bugout
-    if args.override-snap-bugout is True:
+    if snap_bugout is True:
         installmirata()
     else:
-        print("I can't seem to find snapcraft on this system. Either add it to your path, or use --override-snap-bugout to bypass this sanity check")
+        print("I can't seem to find snap on this system. Either add it to your path, or use --override-snap-bugout to bypass this sanity check")
         #Sweet Dreams
     sys.exit()
+
+def installmirata():
+    if live_dangerously:
+        print("Installing Aleph One using snap. Stand by.")
+        call(["snap", "install", "alephone.snap", "--dangerous", "--devmode"])
+    else:
+        print("Use --live-dangerously")
+
+
 
 
 refactor_safety(refactor_override)
