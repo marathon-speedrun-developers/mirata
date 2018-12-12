@@ -41,7 +41,7 @@ sup_os = ['Ubuntu', 'Fedora', 'Arch', 'Gentoo', 'openSUSE', 'Sabayon']
 class mirata:
 
     def __init__(self, cls):
-        mirata.get_args
+        mirata.get_args(self, cls)
 
     def get_args(self, cls):
         global refactor_override
