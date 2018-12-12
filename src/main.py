@@ -166,6 +166,7 @@ class os_install:
         cls.os_routing(self, cls)
 
     def os_routing(self, cls):
+        global act_os
         if act_os == 0:
             cls.ubu_install(self, cls)
         elif act_os == 1:
