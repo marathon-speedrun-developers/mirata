@@ -124,7 +124,7 @@ def snap_dl():
 def check_for_snap():
     # Checks if snap is in the system PATH
     if which('snap') is not None:
-        bugout_nosnap()
+        snap_dl()
     else:
         bugout_nosnap()
     os_select()
