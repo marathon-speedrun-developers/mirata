@@ -110,12 +110,12 @@ class mirata:
         # Checks if snap is in the system PATH
         if nerf_snapd == True:
             print("snapd detection has been nerfed. Acting as if snap isn't installed.")
-            os_install.routing(self, cls, mirata)
+            os_install.routing(self, cls)
         elif which('snap') is not None:
             cls.os_select(self, cls)
         else:
             print("Hmm. I don't see snapd installed. Let's get that fixed.")
-            os_install.routing(self, cls, mirata)
+            os_install.routing(self, cls)
 
     def os_select(self, cls):
         global act_os
@@ -158,25 +158,25 @@ class mirata:
 class os_install:
 
     def __init__(self, cls):
-        cls.routing(self, cls, mirata)
+        cls.routing(self, cls)
 
     def routing(self, cls, mirata):
         if act_os == 0:
-            cls.ubu_install(self, cls, mirata)
+            cls.ubu_install(self, cls)
         elif act_os == 1:
-            cls.fed_install(self, cls, mirata)
+            cls.fed_install(self, cls)
         elif act_os == 2:
-            cls.arch_install(self, cls, mirata)
+            cls.arch_install(self, cls)
         elif act_os == 3:
-            cls.needs_more_gentoo(self, cls, mirata)
+            cls.needs_more_gentoo(self, cls)
         elif act_os == 4:
-            cls.suse_install(self, cls, mirata)
+            cls.suse_install(self, cls)
         elif act_os == 5:
-            cls.saba_install(self, cls, mirata)
+            cls.saba_install(self, cls)
         else:
             print("Failure in the OS Routing Subroutine.")
 
-    def ubu_install(self, cls, mirata):
+    def ubu_install(self, cls):
         if act_os == 0:
             print("I'm going to install snapd from your distribution's package manager.")
             print("There shouldn't be any issues with the automated installation, but if you")
