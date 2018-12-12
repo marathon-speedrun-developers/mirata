@@ -75,6 +75,7 @@ class mirata:
             cls.os_preprocessing(self, cls)
         else:
             print(refactor_override)
+            print(nerf_snapd)
             print("Just... don't even bother trying to run this code right now. You'll need to perform an exorcism if you do, and you probably can't afford both a technomancer and whatever the hourly rate right now the Catholic Church is charging.")
 
     def os_preprocessing(self, cls):
