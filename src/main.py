@@ -60,21 +60,21 @@ def get_args():
     target_os = args.target_os
     nerf_snapd = args.nerf_snapd
     #    refactor_override = 
-    refactor_safety( )
+    refactor_safety()
 
     # This subroutine basically keeps some idiot from running the program in it's current state. Like us.
 
-def refactor_safety( ):
+def refactor_safety():
     if refactor_override == True:
         print("Bless your heart, you stupid fool. Running as normal, and may God have mercy on your computer.")
         # At some point, we should add the call to the subrouting that runs this mess.
-        os_preprocessing( )
+        os_preprocessing()
     else:
         print(refactor_override)
         print(nerf_snapd)
         print("Just... don't even bother trying to run this code right now. You'll need to perform an exorcism if you do, and you probably can't afford both a technomancer and whatever the hourly rate right now the Catholic Church is charging.")
 
-def os_preprocessing( ):
+def os_preprocessing():
     global act_os
     if target_os == "Ubuntu":
         act_os=0
@@ -89,23 +89,23 @@ def os_preprocessing( ):
     elif target_os == "Sabayon":
         act_os=5
     else:
-        title_banner( )
+        title_banner()
 
-def title_banner( ):
+def title_banner():
     os.system('clear')
     print("mirata, the Linux setup tool for AlephOne")
     print("This program comes with ABSOLUTELY NO WARRANTY.")
     print("This is free software, and you are welcome to redistribute it under certain conditions.")
     print( '-' * 20 )
     time.sleep(3)
-    check_for_snap_nerf( )
+    check_for_snap_nerf()
 
-def check_for_snap_nerf( ):
+def check_for_snap_nerf():
     if nerf_snapd == True:
         print("Acting as if snapd is not installed.")
-        os_routing
+        os_routing()
     else:
-        check_for_snap
+        check_for_snap()
 
 def check_for_snap():
     # Checks if snap is in the system PATH
@@ -115,7 +115,7 @@ def check_for_snap():
         print("Hmm. I don't see snapd installed. Let's get that fixed.")
         os_routing()
 
-def os_select( ):
+def os_select():
     global act_os
     if act_os == 60:
         print("Before we begin, please select your distro")
@@ -131,29 +131,29 @@ def os_select( ):
         act_os = act_os - 1
     else:
         print("I see you have selected " + sup_os[act_os] + " as your install target during runtime. Continuing unattended.")
-        snap_dl( )
+        snap_dl()
 
-def snap_dl( ):
+def snap_dl():
     print('Downloading the snap file...')
     call(["wget", url])
-    installmirata( )
+    installmirata()
 
 
-def bugout_nosnap( ):
+def bugout_nosnap():
     #Checks if we are overriding the bugout
     if snap_bugout is True:
-        snap_dl( )
+        snap_dl()
     else:
         print("I can't seem to find snap on this system. Either add it to your path, or use --override-snap-bugout to bypass this sanity check")
 
-def installmirata( ):
+def installmirata():
     if live_dangerously == True:
         print("Installing Aleph One using snap. Stand by.")
         call(["snap", "install", "alephone.snap", "--dangerous", "--devmode"])
     else:
         print("Use --live-dangerously")
 
-def os_routing( ):
+def os_routing():
     global act_os
     if act_os == 0:
         ubu_install()
@@ -170,7 +170,7 @@ def os_routing( ):
     else:
         print("Failure in the OS Routing Subroutine.")
 
-def ubu_install( ):
+def ubu_install():
     if act_os == 0:
         print("I'm going to install snapd from your distribution's package manager.")
         print("There shouldn't be any issues with the automated installation, but if you")
