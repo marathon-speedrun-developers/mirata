@@ -139,7 +139,7 @@ class mirata:
     def snap_dl(self, mirata):
         print('Downloading the snap file...')
         call(["wget", url])
-        cls.installmirata(self, cls)
+        mirata.installmirata(self, mirata)
 
 
     def bugout_nosnap(self, cls):
