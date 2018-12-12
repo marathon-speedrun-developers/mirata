@@ -96,7 +96,7 @@ def title_banner():
     print("This is free software, and you are welcome to redistribute it under certain conditions.")
     print( '-' * 20 )
     time.sleep(3)
-    os_select()
+    check_for_snap()
 
 def os_select():
     global act_os
@@ -118,11 +118,7 @@ def os_select():
 
 def snap_dl():
     print('Downloading the snap file...')
-    response = requests.get(url, stream=True)
-
-    with open("alpehone.snap", wb) as handle:
-        for data in tqdm(response.iter_content()):
-	        handle.write(data)
+    call(["wget", url])
 
 def check_for_snap():
     # Checks if snap is in the system PATH
@@ -130,8 +126,9 @@ def check_for_snap():
         installmirata()
     else:
         bugout_nosnap()
+    os_select()
 
-def bugout_nosnap(snap_bugout):
+def bugout_nosnap():
     #Checks if we are overriding the bugout
     if snap_bugout is True:
         installmirata()
