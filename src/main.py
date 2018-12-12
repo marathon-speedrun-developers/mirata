@@ -94,8 +94,7 @@ class mirata:
         elif target_os == "Sabayon":
             act_os=5
         else:
-            print("Fatal Error in the OS Preprocessing Subroutine. Good Night.")
-        cls.title_banner(self, cls)
+            cls.title_banner(self, cls)
 
     def title_banner(self, cls):
         os.system('clear')
@@ -106,17 +105,22 @@ class mirata:
         time.sleep(3)
         cls.check_for_snap(self, cls)
 
+    def check_for_snap_nerf(self, cls):
+        q = os_install(os_install)
+        if nerf_snapd == True:
+            print("Acting as if snapd is not installed.")
+            q.os_routing(os_install)
+        else:
+            cls.check_for_snap
+
     def check_for_snap(self, cls):
         q = os_install(os_install)
         # Checks if snap is in the system PATH
-        if nerf_snapd == True:
-            print("snapd detection has been nerfed. Acting as if snap isn't installed.")
-            q.routing(os_install)
-        elif which('snap') is not None:
+        if which('snap') is not None:
             cls.os_select(self, cls)
         else:
             print("Hmm. I don't see snapd installed. Let's get that fixed.")
-            q.routing(os_install)
+            q.os_routing(os_install)
 
     def os_select(self, cls):
         global act_os
@@ -134,7 +138,7 @@ class mirata:
             act_os = act_os - 1
         else:
             print("I see you have selected " + sup_os[act_os] + " as your install target during runtime. Continuing unattended.")
-        cls.snap_dl(self, cls)
+            cls.snap_dl(self, cls)
 
     def snap_dl(self, cls):
         print('Downloading the snap file...')
@@ -161,7 +165,7 @@ class os_install:
     def __init__(self, cls):
         cls.routing(self, cls)
 
-    def routing(self, cls):
+    def os_routing(self, cls):
         if act_os == 0:
             cls.ubu_install(self, cls)
         elif act_os == 1:
@@ -178,7 +182,6 @@ class os_install:
             print("Failure in the OS Routing Subroutine.")
 
     def ubu_install(self, cls):
-        z = mirata(mirata)
         if act_os == 0:
             print("I'm going to install snapd from your distribution's package manager.")
             print("There shouldn't be any issues with the automated installation, but if you")
