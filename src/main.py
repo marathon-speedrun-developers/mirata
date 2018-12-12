@@ -70,7 +70,7 @@ class mirata:
     # This subroutine basically keeps some idiot from running the program in it's current state. Like us.
 
     def refactor_safety(self, cls):
-        if refactor_override == False:
+        if refactor_override == True:
             print("Bless your heart, you stupid fool. Running as normal, and may God have mercy on your computer.")
             # At some point, we should add the call to the subrouting that runs this mess.
             cls.os_preprocessing(self, cls)
