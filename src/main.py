@@ -98,6 +98,13 @@ def title_banner():
     time.sleep(3)
     check_for_snap()
 
+def check_for_snap():
+    # Checks if snap is in the system PATH
+    if which('snap') is not None:
+        os_select()
+    else:
+        bugout_nosnap()
+
 def os_select():
     global act_os
     if act_os == 60:
@@ -121,13 +128,6 @@ def snap_dl():
     call(["wget", url])
     installmirata()
 
-def check_for_snap():
-    # Checks if snap is in the system PATH
-    if which('snap') is not None:
-        snap_dl()
-    else:
-        bugout_nosnap()
-    os_select()
 
 def bugout_nosnap():
     #Checks if we are overriding the bugout
