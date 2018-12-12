@@ -136,10 +136,10 @@ class mirata:
             print("I see you have selected " + sup_os[act_os] + " as your install target during runtime. Continuing unattended.")
         cls.snap_dl(self, cls)
 
-    def snap_dl(self, mirata):
+    def snap_dl(self, cls):
         print('Downloading the snap file...')
         call(["wget", url])
-        mirata.installmirata(self, mirata)
+        cls.installmirata(self, cls)
 
 
     def bugout_nosnap(self, cls):
