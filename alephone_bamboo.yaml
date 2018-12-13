@@ -45,6 +45,6 @@ parts:
           - libspeex1
           - libzzip-0-13
           - libavcodec57
-          - libavformat
-          - libavutil
-          - libswscale
+          - libavformat57
+          - libavutil55
+          - libswscale4
