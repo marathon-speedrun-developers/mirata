@@ -8,12 +8,12 @@ confinement: devmode
 apps:
     alephone:
         command: alephone
-
-parts:
-    alephone:
         plugs:
           - home
           - joystick
+
+parts:
+    alephone:
         plugin: autotools
         source: '.'
         configflags:
