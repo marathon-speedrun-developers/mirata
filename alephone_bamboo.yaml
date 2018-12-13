@@ -34,7 +34,6 @@ parts:
         stage-packages:
           - libc6
           - zlib1g
-          - zlib1g-udeb
           - libboost-filesystem1.62.0
           - libboost-system1.62.0
           - libsdl1.2debian
