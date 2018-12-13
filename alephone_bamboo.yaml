@@ -11,6 +11,9 @@ apps:
 
 parts:
     alephone:
+        plugs:
+          - home
+          - joystick
         plugin: autotools
         source: '.'
         configflags:
