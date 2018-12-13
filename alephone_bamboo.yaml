@@ -48,4 +48,3 @@ parts:
           - libavformat
           - libavutil
           - libswscale
-          - libboost-filesystem1.62.0
