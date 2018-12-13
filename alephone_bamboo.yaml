@@ -30,5 +30,6 @@ parts:
           - libavformat-dev
           - libavutil-dev
           - libswscale-dev
+          - zlib1g-dev
         stage-packages:
           - libc6
