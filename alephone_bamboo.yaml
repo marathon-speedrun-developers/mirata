@@ -3,7 +3,7 @@ version: git
 summary: AlephOne
 description: "Aleph One is a source port of based on the source code for Bungie's Marathon 2 Engine."
 
-confinement: devmode
+confinement: classic
 
 apps:
     alephone:
