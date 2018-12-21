@@ -5,7 +5,7 @@ apps:
     plugs: 
       - home:
         - read: 
-          - all
+          - 'all'
       - joystick
       - opengl
 confinement: devmode
