@@ -3,10 +3,10 @@ apps:
   alephone: 
     command: alephone
     plugs: 
-      home: 
-        read: all
-      joystick
-      opengl
+      - home 
+        - read: all
+      - joystick
+      - opengl
 confinement: devmode
 description: "Aleph One is a source port of based on the source code for Bungie's Marathon 2 Engine."
 name: alephone
