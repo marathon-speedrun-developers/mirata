@@ -1,10 +1,14 @@
 --- 
+plugs:
+  home-all:
+    interface: home
+    read: all
+
 apps: 
   alephone: 
     command: alephone
     plugs: 
-      - home:
-          - read: all
+      - home-all
       - joystick
       - opengl
 confinement: devmode
