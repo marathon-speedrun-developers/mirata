@@ -9,7 +9,7 @@ apps:
     alephone:
         command: alephone
         plugs:
-          home:
+          - home:
               read: all
           - joystick
           - opengl
