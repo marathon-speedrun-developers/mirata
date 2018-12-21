@@ -3,8 +3,8 @@ apps:
   alephone: 
     command: alephone
     plugs: 
-      - home: 
-        - read: 
+      - home 
+        - read 
           - all
       - joystick
       - opengl
