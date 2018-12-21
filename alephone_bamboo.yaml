@@ -3,7 +3,8 @@ apps:
   alephone: 
     command: alephone
     plugs: 
-      - home: read: all
+      - home: 
+        - read: all
       - joystick
       - opengl
 confinement: devmode
