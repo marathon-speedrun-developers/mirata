@@ -11,9 +11,9 @@ apps:
         plugs:
           home:
               read: all
-          joystick:
-          opengl:
-          removable-media:
+          - joystick
+          - opengl
+          - removable-media
           
 
 parts:
