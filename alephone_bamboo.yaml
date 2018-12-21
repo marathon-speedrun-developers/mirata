@@ -3,47 +3,47 @@ apps:
   alephone: 
     command: alephone
     plugs: 
-      - home: 
-        read: all
-      - joystick
-      - opengl
+      home: 
+        - read: all
+      joystick: ~
+      opengl: ~
 confinement: devmode
 description: "Aleph One is a source port of based on the source code for Bungie's Marathon 2 Engine."
 name: alephone
 parts: 
   alephone: 
     build-packages: 
-      - libboost-all-dev
-      - libsdl1.2-dev
-      - libsdl-image1.2-dev
-      - libsdl-net1.2-dev
-      - libsdl-ttf2.0-dev
-      - libspeexdsp-dev
-      - libzzip-dev
-      - libavcodec-dev
-      - libavformat-dev
-      - libavutil-dev
-      - libswscale-dev
-      - zlib1g-dev
+      libboost-all-dev
+      libsdl1.2-dev
+      libsdl-image1.2-dev
+      libsdl-net1.2-dev
+      libsdl-ttf2.0-dev
+      libspeexdsp-dev
+      libzzip-dev
+      libavcodec-dev
+      libavformat-dev
+      libavutil-dev
+      libswscale-dev
+      zlib1g-dev
     configflags: 
-      - "--without-ffmpeg"
+      "--without-ffmpeg"
     plugin: autotools
     source: "."
     stage-packages: 
-      - libc6
-      - zlib1g
-      - libboost-filesystem1.62.0
-      - libboost-system1.62.0
-      - libsdl1.2debian
-      - libsdl-image1.2
-      - libsdl-net1.2
-      - libsdl-ttf2.0-0
-      - libspeexdsp1
-      - libspeex1
-      - libzzip-0-13
-      - libavcodec57
-      - libavformat57
-      - libavutil55
-      - libswscale4
+      libc6
+      zlib1g
+      libboost-filesystem1.62.0
+      libboost-system1.62.0
+      libsdl1.2debian
+      libsdl-image1.2
+      libsdl-net1.2
+      libsdl-ttf2.0-0
+      libspeexdsp1
+      libspeex1
+      libzzip-0-13
+      libavcodec57
+      libavformat57
+      libavutil55
+      libswscale4
 summary: AlephOne
 version: git
