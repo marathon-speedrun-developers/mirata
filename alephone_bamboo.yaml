@@ -11,6 +11,11 @@ apps:
       - home-all
       - joystick
       - opengl
+      - desktop
+      - desktop-legacy
+      - pulseaudio
+      - wayland
+      - x11
 confinement: devmode
 description: "Aleph One is a source port of based on the source code for Bungie's Marathon 2 Engine."
 name: alephone
