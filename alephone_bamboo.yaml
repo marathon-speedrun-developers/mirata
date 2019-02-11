@@ -1,4 +1,8 @@
 --- 
+layout:
+  $HOME/.alephone:
+    bind: $SNAP_DATA/dotalephone
+
 plugs:
   home-all:
     interface: home
