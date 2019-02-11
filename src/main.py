@@ -33,7 +33,7 @@ refactor_override = False
 live_dangerously = False
 nerf_snapd = False
 
-url = "https://www.chancecallahan.com/mirata/snap/alephone.snap"
+url = "https://www.chancecallahan.com/mirata/snapfiles/devel/alephone_release-20150907+git328.2c6d9ab0_amd64.snap"
 
 
 act_os = 60
@@ -53,7 +53,7 @@ def get_args():
     parser.add_argument("--live-dangerously", dest="live_dangerously", help="Just used for debug purposes. It won't exist in the final release.", action="store_true", default=False)
     parser.add_argument("--nerf-snapd", dest="nerf_snapd", help="Nerfs snapd detection for debug purposes.", action="store_true", default=False)
     args = parser.parse_args()
-    print parser.parse_args()
+#    print parser.parse_args()
     refactor_override = args.refactor_override
     live_dangerously = args.live_dangerously
     snap_bugout = args.snap_bugout
@@ -138,7 +138,7 @@ def os_select():
         print("5)openSUSE")
         print("6)Sabayon(Equo)")
         print("")
-        act_os = input("Selection: ")
+        act_os = int(input("Selection: "))
         act_os = act_os - 1
     else:
         print("I see you have selected " + sup_os[act_os] + " as your install target during runtime. Continuing unattended.")
