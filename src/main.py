@@ -33,7 +33,7 @@ refactor_override = False
 live_dangerously = False
 nerf_snapd = False
 
-url = "https://www.chancecallahan.com/mirata/snapfiles/devel/alephone_release-20150907+git328.2c6d9ab0_amd64.snap"
+url = "https://mirata.chancecallahan.com/a1/dangerzone/current/alephone.snap"
 
 
 act_os = 60
