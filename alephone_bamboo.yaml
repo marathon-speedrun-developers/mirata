@@ -33,8 +33,6 @@ parts:
       - libavutil-dev
       - libswscale-dev
       - zlib1g-dev
-    configflags: 
-      - "--without-ffmpeg"
     plugin: autotools
     source: "."
     stage-packages: 
