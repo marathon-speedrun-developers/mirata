@@ -18,6 +18,4 @@ The launcher will download files needed to get a game of Marathon up and running
 [Newsgroup](https://groups.google.com/forum/#!forum/chocothon-mirata)  
 \#mirata on the [Marathon Engine Speedrunning Discord](https://discord.gg/4Mu6R3F)  
 [Thread on the Pfhorums](http://pfhorums.com/viewtopic.php?f=13&t=53564)  
-\#chocothon on freenode  
-
-This project contains a hook to post commit updates the IRC channel.
+\#chocothon on libera chat  
