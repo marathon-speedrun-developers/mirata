@@ -18,6 +18,7 @@
 
 #    This application downloads both appimages of the alephone source port (https://github.com/Aleph-One-Marathon/alephone)
 #    and free-to-download scenario files that are property of Bungie LLC.
+
 import sqlite3
 import urllib.request as Request
 
