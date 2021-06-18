@@ -1,5 +1,5 @@
-#Mirata v0.6 - The Linux setup utility for AlephOne
-#by Brandon Clark and Chance Callahan
+#Mirata v0.7 - The Linux setup utility for AlephOne
+#by Brandon Clark and Chance Callahanyes
 
 #    This file is part of mirata.
 
@@ -16,233 +16,93 @@
 #    You should have received a copy of the GNU General Public License
 #    along with mirata.  If not, see <https://www.gnu.org/licenses/>.
 
-#    This application downloads both snap images of the alephone source port (https://github.com/Aleph-One-Marathon/alephone)
+#    This application downloads both appimages of the alephone source port (https://github.com/Aleph-One-Marathon/alephone)
 #    and free-to-download scenario files that are property of Bungie LLC.
-import os
-import time
-import subprocess
-import argparse
-import sys
 
-from whichcraft import which
-from subprocess import call
+import sqlite3
+import urllib.request as Request
 
-snap_bugout = False
-target_os = ""
-refactor_override = False
-live_dangerously = False
-nerf_snapd = False
+from github import Github
+from zipfile import ZipFile
+from io import BytesIO as bio
+from tkinter import *
+from tkinter.ttk import *
+from pathlib import Path
+import sqlite3
 
-url = "https://mirata.chancecallahan.com/a1/dangerzone/current/alephone.snap"
+tk = Tk()
+tk.title = "Mirata v0.7"
+tk.resizable(0,0)
+tk.wm_attributes("-topmost",1)
 
+#read-only token for checking repository tags
+tok = "<insert token here>"
+basedir = "{}/.mirata".format(Path.home())
+git_rep = "alephone/marathon"
 
-act_os = 60
-sup_os = ['Ubuntu', 'Fedora', 'Arch', 'Gentoo', 'openSUSE', 'Sabayon']
+class Tk():
+    # ============================================================================== 
+    # FUNCTIONS AHOY!
+    # ==============================================================================
 
-def get_args():
-    global refactor_override
-    global target_os
-    global snap_bugout
-    global live_dangerously
-    global nerf_snapd
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--override-snap-bugout", dest="snap_bugout", help="Overrides sanity check for snapcraft.", action="store_true", default=False)
-    parser.add_argument("--target-os", dest="target_os", help="Select target OS, see --eligible-targets", action="store")
-    parser.add_argument("--eligible-targets", help="Eligible Target Platforms: Ubuntu, Fedora, Arch, Gentoo, openSUSE, Sabayon")
-    parser.add_argument("--refactor-override", dest="refactor_override", help="No one in their sane mind would use this flag right now.", action="store_true", default=False)
-    parser.add_argument("--live-dangerously", dest="live_dangerously", help="Just used for debug purposes. It won't exist in the final release.", action="store_true", default=False)
-    parser.add_argument("--nerf-snapd", dest="nerf_snapd", help="Nerfs snapd detection for debug purposes.", action="store_true", default=False)
-    args = parser.parse_args()
-#    print parser.parse_args()
-    refactor_override = args.refactor_override
-    live_dangerously = args.live_dangerously
-    snap_bugout = args.snap_bugout
-    target_os = args.target_os
-    nerf_snapd = args.nerf_snapd
-    #    refactor_override = 
-    print(refactor_override, live_dangerously, snap_bugout, target_os, nerf_snapd)
-    refactor_safety()
+    #something...something....python 3.10 will make this less convoluted....
+    #update Jun 11, 2021 - LOL NAH FAM
+    def dwnldAlephone(verPick):
+            try:
+                ai_pick = Path("{}/appimages/ao_{}.appimage".format(basedir, verPick))
+            except FileNotFoundError:
+                print(verPick," is not detected, downloading....")
+                urllib.request.urlretrieve("http://blah.example.com/appimages/ao_{}.appimage".format(verPick), ai_pick)
+                print(verPick," downloaded to ~/.mirata/appimages/")
+            else:
+                print(verPick," appimage already detected in ~/.mirata/appimages/")
+            finally:
+                print("Moving Onward...")
 
-    # This subroutine basically keeps some idiot from running the program in it's current state. Like us.
+    #  The first thing application should do is make sure directories are available in home directory.
+    def directoryCheck():
+        print("Creating required directories (if needed)")
 
-def refactor_safety():
-    if refactor_override == True:
-        print("Bless your heart, you stupid fool. Running as normal, and may God have mercy on your computer.")
-        # At some point, we should add the call to the subrouting that runs this mess.
-        os_preprocessing()
-    else:
-        print(refactor_override)
-        print(nerf_snapd)
-        print("Just... don't even bother trying to run this code right now. You'll need to perform an exorcism if you do, and you probably can't afford both a technomancer and whatever the hourly rate right now the Catholic Church is charging.")
+        for dir in ["scenarios","maps","appimages","scripts","films"]:
+            Path("{}/{}".format(basedir,dir)).mkdir(parents=True, exist_ok=True)
+        
+    def db_init():
+        
+        db_file = Path("{}/mirata.db".format(basedir))
+        print("Checking for metadata db for launcher")
+        try:
+            db_file.is_file()
+        except False:
+            print("db not found. Creating...")
+            conn = sqlite3.connect(db_file)
+            curs = conn.cursor()
+            curs.execute('''CREATE TABLE installed
+                            (integer item_id, text name, integer version_id, integer rating, integer is_installed''')
+        else:
+            conn = sqlite3.connect(db_file)
+            curs = conn.cursor()
+        finally:
+            print("Moving Onward...")
 
-def os_preprocessing():
-    global act_os
-    if target_os == "Ubuntu":
-        act_os=0
-        os_pp_debug()
-    elif target_os == "Fedora":
-        act_os=1
-    elif target_os == "Arch":
-        act_os=2
-    elif target_os == "Gentoo":
-        act_os=3
-    elif target_os == "openSUSE":
-        act_os=4
-    elif target_os == "Sabayon":
-        act_os=5
-    else:
-        os_pp_debug()
+    def sceaDwld(self):
+            # the following ensures we get the latest game data files.
+        gh = Github(tok)
+        # get_repo does NOT like getting a variable as an argument.
+        repo = gh.get_repo("aleph-one-marathon/alephone")
+        tag_list = repo.get_tags()
+        rel = tag_list[0].name
+        for scen in ['Marathon','Marathon2','MarathonInfinity']:
+            try:
+                gam_check = Path("{}/scenarios/{}".format(basedir, scen))
+            except FileNotFoundError:
+                print("Games not detected...downloading")
+                url = "https://github.com/{}/releases/download/{}/{}-{}-Data.zip".format(git_rep,rel,scen,rel.split('-')[1])
+                http = Request.urlopen(url)
+                zip = ZipFile(bio(http.read()))
+                zip.extractall(path="{}/scenarios/.".format(basedir,scen))
+            else:
+                print("Trilogy detected....")
+            finally:
+                print("Moving Onward...")
 
-
-def os_pp_debug():
-    print(act_os)
-    print(target_os)
-    time.sleep(5)	
-    title_banner()
-
-def title_banner():
-    os.system('clear')
-    print("mirata, the Linux setup tool for AlephOne")
-    print("This program comes with ABSOLUTELY NO WARRANTY.")
-    print("This is free software, and you are welcome to redistribute it under certain conditions.")
-    print( '-' * 20 )
-    time.sleep(3)
-    check_for_snap_nerf()
-
-def check_for_snap_nerf():
-    if nerf_snapd == True:
-        print("Acting as if snapd is not installed.")
-        os_select()
-    else:
-        check_for_snap()
-
-def check_for_snap():
-    # Checks if snap is in the system PATH
-    if nerf_snapd == True:
-        os_routing()
-    elif which('snap') is not None:
-        snap_dl()
-    else:
-        print("Hmm. I don't see snapd installed. Let's get that fixed.")
-        os_routing()
-
-def os_select():
-    global act_os
-    if act_os == 60:
-        print("Before we begin, please select your distro")
-        print("------------------------------------------")
-        print("1)Ubuntu")
-        print("2)Fedora")
-        print("3)Arch")
-        print("4)Gentoo")
-        print("5)openSUSE")
-        print("6)Sabayon(Equo)")
-        print("")
-        act_os = int(input("Selection: "))
-        act_os = act_os - 1
-    else:
-        print("I see you have selected " + sup_os[act_os] + " as your install target during runtime. Continuing unattended.")
-    check_for_snap()
-
-def snap_dl():
-    print('Downloading the snap file...')
-    call(["wget", url])
-    installmirata()
-
-
-def bugout_nosnap():
-    #Checks if we are overriding the bugout
-    if snap_bugout is True:
-        snap_dl()
-    else:
-        print("I can't seem to find snap on this system. Either add it to your path, or use --override-snap-bugout to bypass this sanity check")
-
-def installmirata():
-    if live_dangerously == True:
-        print("Installing Aleph One using snap. Stand by.")
-        call(["snap", "install", "alephone.snap", "--dangerous", "--devmode"])
-    else:
-        print("Use --live-dangerously")
-
-def os_routing():
-    global act_os
-    if act_os == 0:
-        ubu_install()
-    elif act_os == 1:
-        fed_install()
- #   elif act_os == 2:
- #       arch_install()
- #   elif act_os == 3:
- #       needs_more_gentoo()
- #   elif act_os == 4:
- #       suse_install()
- #   elif act_os == 5:
- #       saba_install()
-    else:
-        print("Failure in the OS Routing Subroutine.")
-
-def ubu_install():
-    if act_os == 0:
-        print("I'm going to install snapd from your distribution's package manager.")
-        print("There shouldn't be any issues with the automated installation, but if you")
-        print("want to be extra cautious/paranoid, just install it the old fashioned way.")
-        print("")
-        print("")
-        print("I'm going to wait ten seconds for you to make up your mind, then I'll start.")
-        print("Hit Ctrl+C to stop this script.")
-        time.sleep(10)
-        print("Hold your noses, here we go!")
-        call(["sudo", "apt", "install", "snapd", "-y"])
-        print("snapd has been installed. Resuming installation.")
-        snap_dl()
-    else:
-        print("Failure in the snapd installation for Ubuntu subroutine.")
-
-
-def fed_install():
-    if act_os == 1:
-        print("I'm going to install snapd from your distribution's package manager.")
-        print("There shouldn't be any issues with the automated installation, but if you")
-        print("want to be extra cautious/paranoid, just install it the old fashioned way.")
-        print("")
-        print("")
-        print("I'm going to wait ten seconds for you to make up your mind, then I'll start.")
-        print("Hit Ctrl+C to stop this script.")
-        time.sleep(10)
-        print("Hold your noses, here we go!")
-        call(["sudo", "dnf", "install", "snapd", "-y"])
-        print("")
-        print("")
-        print("")
-        print("")
-        print("snapd has been installed. Resuming installation.")
-        print("")
-        print("")
-        snap_dl()
-    else:
-        print(act_os)
-        print("Failure in the snapd installation for Fedora subroutine.")
-
-def suse_install():
-    if act_os == 4:
-        suse_ver = input("Enter your version of openSUSE Leap here (15.0 or 42.3 supported):")
-        print("I'm going to install snapd from your distribution's package manager.")
-        print("There shouldn't be any issues with the automated installation, but if you")
-        print("want to be extra cautious/paranoid, just install it the old fashioned way.")
-        print("")
-        print("")
-        print("I'm going to wait ten seconds for you to make up your mind, then I'll start.")
-        print("Hit Ctrl+C to stop this script.")
-        time.sleep(10)
-        print("Hold your noses, here we go!")
-        call(["sudo", "zephyr", "addrepo", "--refresh", "https://download.opensuse.org/repositories/system:/snappy/openSUSE_Leap_"+suse_ver+" snappy"])
-    else:
-        print(act_os)
-        print("Failure in the snapd installation for openSUSE subroutine.")
-
-
-def main():
-    get_args()
-
-if __name__ == '__main__':
-    main()
+tk.mainloop()
