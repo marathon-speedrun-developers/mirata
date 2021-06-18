@@ -18,24 +18,26 @@
 
 #    This application downloads both appimages of the alephone source port (https://github.com/Aleph-One-Marathon/alephone)
 #    and free-to-download scenario files that are property of Bungie LLC.
-import re
-import subprocess
 import sqlite3
-import urllib.request
-import requests
+import urllib.request as Request
 
+from github import Github
+from zipfile import ZipFile
+from io import BytesIO as bio
 from tkinter import *
 from tkinter.ttk import *
-from pathlib import Path, PurePath, PurePosixPath
-from sqlite3 import Error
-from threading import Event,Thread
+from pathlib import Path
+import sqlite3
 
 tk = Tk()
 tk.title = "Mirata v0.7"
 tk.resizable(0,0)
 tk.wm_attributes("-topmost",1)
 
+#read-only token for checking repository tags
+tok = "<insert token here>"
 basedir = "{}/.mirata".format(Path.home())
+git_rep = "alephone/marathon"
 
 class Tk():
     # ============================================================================== 
@@ -81,13 +83,25 @@ class Tk():
         finally:
             print("Moving Onward...")
 
-    def sceaDwld(scen):
-        try:
-            gam_pick = Path("{}/scenarios/{}".format(basedir,scen))
-        except FileNotFoundError:
-            urllib.request.urlretrieve("")
-        else:
-            
-        finally:
+    def sceaDwld(self):
+            # the following ensures we get the latest game data files.
+        gh = Github(tok)
+        # get_repo does NOT like getting a variable as an argument.
+        repo = gh.get_repo("aleph-one-marathon/alephone")
+        tag_list = repo.get_tags()
+        rel = tag_list[0].name
+        for scen in ['Marathon','Marathon2','MarathonInfinity']:
+            try:
+                gam_check = Path("{}/scenarios/{}".format(basedir, scen))
+            except FileNotFoundError:
+                print("Games not detected...downloading")
+                url = "https://github.com/{}/releases/download/{}/{}-{}-Data.zip".format(git_rep,rel,scen,rel.split('-')[1])
+                http = Request.urlopen(url)
+                zip = ZipFile(bio(http.read()))
+                zip.extractall(path="{}/scenarios/.".format(basedir,scen))
+            else:
+                print("Trilogy detected....")
+            finally:
+                print("Moving Onward...")
 
 tk.mainloop()
