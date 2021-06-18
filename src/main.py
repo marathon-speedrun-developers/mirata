@@ -1,5 +1,5 @@
 #Mirata v0.7 - The Linux setup utility for AlephOne
-#by Brandon Clark and Chance Callahanyes
+#by Brandon Clark and Chance Callahan
 
 #    This file is part of mirata.
 
@@ -106,3 +106,4 @@ class Tk():
                 print("Moving Onward...")
 
 tk.mainloop()
+
